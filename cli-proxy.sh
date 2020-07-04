@@ -1,5 +1,7 @@
 #! /bin/bash
 
+export windows_host=$(ipconfig.exe | grep -n4 WSL | tail -n 1 | awk -F":" '{ print $2 }' | sed 's/^[ \r\n\t]*//;s/[ \r\n\t]*$//')
+
 # params=("--help" "-h" "--port" "-p")
 # echo $#
 
@@ -51,8 +53,8 @@ END
 }
 
 setPort() {
-  export http_proxy=http://127.0.0.1:$1
-  export https_proxy=http://127.0.0.1:$1
+  export http_proxy=socks5://$windows_host:$1
+  export https_proxy=socks5://$windows_host:$1
   export NO_PROXY=localhost,127.0.0.1
 }
 
